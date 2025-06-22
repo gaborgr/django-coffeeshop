@@ -7,11 +7,6 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
 
-    def save(self, *args, **kwargs):  # Automated Slug
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return self.name
 
@@ -21,7 +16,7 @@ class Product(models.Model):
     description = models.TextField(blank=True, verbose_name="Description")
     price = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Price")
     stock = models.IntegerField(default=0, verbose_name="Stock")
-    is_avalible = models.BooleanField(default=True, verbose_name="Avalible?")
+    is_available = models.BooleanField(default=True, verbose_name="Available?")
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, verbose_name="Category"
     )
