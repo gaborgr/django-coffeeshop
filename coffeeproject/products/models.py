@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse  # you need this to move into the product detail
 from django.contrib.auth.models import User
 
 
@@ -22,6 +23,11 @@ class Product(models.Model):
     image = models.ImageField(upload_to="products/", blank=True, verbose_name="Photo")
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Creation")
     last_update = models.DateTimeField(auto_now=True, verbose_name="Last Update")
+
+    def get_absolute_url(self):
+        return reverse(
+            "product-detail", kwargs={"pk": self.pk}
+        )  # go to the template detail product
 
     def __str__(self):
         return self.name
