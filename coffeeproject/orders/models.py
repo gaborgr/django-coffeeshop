@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 from django.core.validators import MinValueValidator
 from products.models import Product
 
@@ -30,6 +32,7 @@ class Order(models.Model):
 
     def update_total(self):
         self.total = sum(item for item in self.orderitem_set.all())
+        self.save()
 
 
 class OrderItem(models.Model):
@@ -48,3 +51,12 @@ class OrderItem(models.Model):
 
 
 # ------------------------------- SIGNALS -------------------------------
+@receiver(pre_save, sender=OrderItem)
+def set_order_item_price(sender, instance, **kwargs):
+    if not instance.price:
+        instance.price = instance.product.price
+
+
+@receiver(post_save, sender=OrderItem)
+def update_order_total_on_item_change(sender, instance, **kwargs):
+    instance.order.update_total()

@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "products",
-    "orders,",
+    "orders",
 ]
 
 MIDDLEWARE = [
@@ -83,14 +83,13 @@ WSGI_APPLICATION = "coffeeproject.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "coffee_shop_db",
-        "USER": "coffee_user",
-        "PASSWORD": "Vrgr8411",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
