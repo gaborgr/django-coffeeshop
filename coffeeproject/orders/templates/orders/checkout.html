@@ -1,0 +1,9 @@
+{% block content %}
+<h2>📝 Finalizar Compra</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Muestra phone y address -->
+    <button type="submit" class="btn">Confirmar Pedido</button>
+</form>
+{% endblock %}

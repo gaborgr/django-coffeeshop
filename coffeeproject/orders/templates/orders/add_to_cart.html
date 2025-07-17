@@ -1,0 +1,16 @@
+{% block content %}
+<h2>Añadir al carrito</h2>
+<div class="product-info">
+    <h3>{{ product.name }}</h3>
+    <p>Precio: ${{ product.price }}</p>
+    <p>Stock disponible: {{ product.stock }}</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Muestra el formulario (cantidad + campo oculto del producto) -->
+    <button type="submit" class="btn">Añadir al carrito</button>
+</form>
+
+<a href="{% url 'product-detail' product.id %}">← Volver al producto</a>
+{% endblock %}

@@ -7,12 +7,17 @@ from products.models import Product
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, null=True, blank=True
+    )  # Usuario registrado o null (invitado)
+    session_key = models.CharField(max_length=40, blank=True)  # Para invitados
     phone = models.CharField(max_length=20, blank=True)
     address = models.TextField(blank=True)
 
     def __str__(self):
-        return self.user.email if self.user else "Guess Customer"
+        if self.user:
+            return self.user.email
+        return f"Guest Customer (Session: {self.session_key})"
 
 
 class Order(models.Model):
@@ -31,7 +36,9 @@ class Order(models.Model):
         return f"Order #{self.id} - {self.customer}"
 
     def update_total(self):
-        self.total = sum(item for item in self.orderitem_set.all())
+        self.total = sum(
+            item.subtotal() for item in self.orderitem_set.all()
+        )  # Usa subtotal()
         self.save()
 
 
