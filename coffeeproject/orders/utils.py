@@ -1,17 +1,17 @@
-from django.contrib.sessions.backends.db import SessionStore
-from .models import Customer, Order
+from .models import Order
+from accounts.models import Profile
 
 
 def get_or_create_cart(request):
     if request.user.is_authenticated:
-        customer, created = Customer.objects.get_or_create(user=request.user)
+        customer, created = Profile.objects.get_or_create(user=request.user)
     else:
         # Para invitados, usamos la sesión
         session_key = request.session.session_key
         if not session_key:
             request.session.create()
             session_key = request.session.session_key
-        customer, created = Customer.objects.get_or_create(
+        customer, created = Profile.objects.get_or_create(
             session_key=session_key, user=None
         )
 

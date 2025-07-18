@@ -1,28 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.core.validators import MinValueValidator
 from products.models import Product
-
-
-class Customer(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, null=True, blank=True
-    )  # Usuario registrado o null (invitado)
-    session_key = models.CharField(max_length=40, blank=True)  # Para invitados
-    phone = models.CharField(max_length=20, blank=True)
-    address = models.TextField(blank=True)
-
-    def __str__(self):
-        if self.user:
-            return self.user.email
-        return f"Guest Customer (Session: {self.session_key})"
+from accounts.models import Profile
 
 
 class Order(models.Model):
     STATUS_CHOICES = [("P", "Pending"), ("C", "Completed"), ("X", "Cancelled")]
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Profile, on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="P")
     total = models.DecimalField(
         max_digits=10, decimal_places=2, default=0, validators=[MinValueValidator(0)]

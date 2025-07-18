@@ -1,6 +1,6 @@
 from django import forms
-from .models import OrderItem, Customer
-from products.models import Product  # Importar Product para validaciones
+from .models import OrderItem
+from accounts.models import Profile
 
 
 class AddToCartForm(forms.ModelForm):
@@ -68,7 +68,7 @@ class CheckoutForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Customer
+        model = Profile
         fields = ["phone", "address"]
 
     def clean_phone(self):
