@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Coffee Shop{% endblock %}</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Favicon (opcional) -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2935/2935413.png">
+    {% block extra_head %}{% endblock %}
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'coffee': {
+                        100: '#f5f0eb',
+                        500: '#a38a6d',
+                        900: '#3e2723',
+                    }
+                }
+            }
+        }
+    }
+</script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    <!-- Navbar -->
+    {% include 'includes/navbar.html' %}
+
+    <!-- Contenido principal -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        {% block content %}
+        <!-- El contenido específico de cada página irá aquí -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'includes/footer.html' %}
+
+    <!-- Scripts -->
+    {% block scripts %}{% endblock %}
+</body>
+</html>

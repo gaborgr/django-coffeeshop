@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-amber-50 to-amber-100 px-4">
+    <div class="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden p-8 text-center">
+        <!-- Icono de café -->
+        <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-amber-100 mb-6">
+            <span class="text-amber-600 text-2xl">☕</span>
+        </div>
+        
+        <!-- Título -->
+        <h2 class="text-3xl font-bold text-amber-800 mb-4">Sesión cerrada</h2>
+        
+        <!-- Mensaje -->
+        <p class="text-gray-600 mb-8">
+            Has cerrado sesión correctamente. ¡Vuelve pronto por tu dosis de café!
+        </p>
+        
+        <!-- Botón de acción -->
+        <a href="{% url 'accounts:login' %}" 
+           class="inline-block px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition duration-300 transform hover:scale-105">
+            Volver a iniciar sesión
+        </a>
+        
+        <!-- Enlace alternativo -->
+        <div class="mt-6">
+            <a href="{% url 'product-list' %}" class="text-amber-600 hover:text-amber-800 text-sm font-medium">
+                o sigue explorando nuestro menú
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mensaje de cierre con onda -->
+    <p class="mt-12 text-gray-500 text-sm">
+        ¿Extrañas ya el aroma del café? Nosotros a ti también.
+    </p>
+</div>
+{% endblock %}

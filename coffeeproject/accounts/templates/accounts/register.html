@@ -1,8 +1,68 @@
+{% extends 'base.html' %}
+
 {% block content %}
-<h2>Registro</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Registrarse</button>
-</form>
+<div class="min-h-screen bg-gradient-to-b from-amber-50 to-amber-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8">
+    <!-- Logo y título -->
+    <div class="text-center mb-8">
+      <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-amber-100 mb-4">
+        <span class="text-amber-600 text-2xl">☕</span>
+      </div>
+      <h2 class="text-3xl font-bold text-amber-800">Únete a nuestra comunidad</h2>
+      <p class="mt-2 text-sm text-gray-600">
+        Registra tu cuenta para comenzar a disfrutar de los mejores cafés
+      </p>
+    </div>
+
+    <!-- Formulario -->
+    <form class="space-y-6" method="post">
+      {% csrf_token %}
+      
+      {% for field in form %}
+      <div>
+        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
+          {{ field.label }}
+        </label>
+        <div class="mt-1">
+          {{ field }}
+          {% if field.help_text %}
+          <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>
+          {% endif %}
+          {% for error in field.errors %}
+          <p class="mt-2 text-sm text-red-600">{{ error }}</p>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+
+      <!-- Botón de submit -->
+      <div>
+        <button type="submit"
+                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition duration-300 transform hover:scale-[1.02]">
+          Crear cuenta
+        </button>
+      </div>
+    </form>
+
+    <!-- Enlace a login -->
+    <div class="mt-6 text-center">
+      <p class="text-sm text-gray-600">
+        ¿Ya tienes una cuenta?
+        <a href="{% url 'accounts:login' %}" class="font-medium text-amber-600 hover:text-amber-500">
+          Inicia sesión aquí
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Estilos para los inputs del formulario -->
+<style>
+  input, select {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500;
+  }
+  .errorlist {
+    @apply text-red-600 text-sm mt-1;
+  }
+</style>
 {% endblock %}

@@ -1,12 +1,110 @@
-<h2>Tu Carrito</h2>
-{% for item in items %}
-    <div>
-        {{ item.product.name }} - 
-        {{ item.quantity }} x ${{ item.price }} = 
-        ${{ item.subtotal }}
+{% extends 'base.html' %}
+
+{% block title %}Tu Carrito | Django Brew{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-4 py-12">
+    <div class="max-w-4xl mx-auto">
+        <!-- Título -->
+        <div class="mb-8 border-b border-amber-200 pb-4">
+            <h2 class="text-3xl font-bold text-amber-900 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                Tu Carrito de Compras
+            </h2>
+        </div>
+
+        <!-- Lista de productos -->
+        {% if cart_items %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            {% for item in cart_items %}
+            <div class="p-6 border-b border-gray-100 last:border-0 flex flex-col md:flex-row">
+                <!-- Imagen del producto -->
+                <div class="w-full md:w-1/4 mb-4 md:mb-0">
+                    {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
+                         class="w-full h-32 object-cover rounded-lg">
+                    {% else %}
+                    <div class="w-full h-32 bg-amber-50 rounded-lg flex items-center justify-center text-amber-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Detalles del producto -->
+                <div class="flex-1 md:ml-6">
+                    <h3 class="text-lg font-semibold text-gray-800">{{ item.product.name }}</h3>
+                    <p class="text-gray-600 mt-1">{{ item.product.category }}</p>
+                    
+                    <!-- Cantidad y precio -->
+                    <div class="mt-4 flex flex-wrap items-center justify-between">
+                        <div class="flex items-center mb-2 sm:mb-0">
+                            <span class="text-gray-700 mr-3">Cantidad:</span>
+                            <div class="flex border border-gray-300 rounded-md">
+                                <a href="{% url 'orders:decrease-quantity' item.id %}" class="px-3 py-1 bg-gray-100 hover:bg-gray-200">-</a>
+                                <span class="px-4 py-1">{{ item.quantity }}</span>
+                                <a href="{% url 'orders:increase-quantity' item.id %}" class="px-3 py-1 bg-gray-100 hover:bg-gray-200">+</a>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-gray-600">${{ item.price }} c/u</p>
+                            <p class="text-lg font-semibold text-amber-600">${{ item.subtotal }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Eliminar -->
+                <div class="mt-4 md:mt-0 md:ml-4">
+                    <a href="{% url 'orders:remove-from-cart' item.id %}" 
+                       class="text-red-500 hover:text-red-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Eliminar
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Resumen y checkout -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-gray-800">Resumen del Pedido</h3>
+                <span class="text-2xl font-bold text-amber-600">${{ cart.total }}</span>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="{% url 'product-list' %}" 
+                   class="flex-1 text-center px-6 py-3 border border-amber-500 text-amber-600 rounded-md hover:bg-amber-50 transition">
+                    ← Seguir Comprando
+                </a>
+                <a href="{% url 'orders:checkout' %}" 
+                   class="flex-1 text-center px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-md transition flex items-center justify-center">
+                    Finalizar Compra
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <!-- Carrito vacío -->
+        <div class="bg-white rounded-lg shadow-md p-12 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <h3 class="mt-4 text-lg font-medium text-gray-900">Tu carrito está vacío</h3>
+            <p class="mt-1 text-gray-500">Agrega algunos productos deliciosos para empezar</p>
+            <a href="{% url 'product-list' %}" 
+               class="mt-6 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700">
+                Explorar Menú
+            </a>
+        </div>
+        {% endif %}
     </div>
-{% empty %}
-    <p>El carrito está vacío.</p>
-{% endfor %}
-<p>Total: ${{ cart.total }}</p>
-<a href="{% url 'checkout' %}">Finalizar Compra</a>
+</section>
+{% endblock %}

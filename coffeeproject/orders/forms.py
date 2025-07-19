@@ -14,8 +14,7 @@ class AddToCartForm(forms.ModelForm):
         initial=1,
         widget=forms.NumberInput(
             attrs={
-                "class": "form-control",
-                "max": "",  # Se establecerá dinámicamente en __init__
+                "class": "w-20 px-3 py-2 border border-gray-300 rounded-md text-center focus:outline-none focus:ring-amber-500 focus:border-amber-500",
             }
         ),
     )
@@ -48,23 +47,22 @@ class CheckoutForm(forms.ModelForm):
     """
 
     phone = forms.CharField(
-        required=True,  # Hacer obligatorio para checkout
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "+56912345678"}
+            attrs={
+                "class": "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500",
+                "placeholder": "+56912345678",
+            }
         ),
-        help_text="Número de contacto para la entrega",
     )
 
     address = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                "rows": 3,  # Corrección: "rows" en lugar de "row"
-                "class": "form-control",
+                "class": "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500",
+                "rows": 3,
                 "placeholder": "Calle, número, departamento, etc.",
             }
         ),
-        required=True,
-        help_text="Dirección completa para la entrega",
     )
 
     class Meta:
