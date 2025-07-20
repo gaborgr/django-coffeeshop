@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
-from .views import register
+from .views import register, LoginOrGuestView
 from .forms import CustomLoginForm
 
 app_name = "accounts"
@@ -19,4 +19,5 @@ urlpatterns = [
         LogoutView.as_view(template_name="accounts/logout.html"),
         name="logout",
     ),
+    path("login-or-guest/", LoginOrGuestView.as_view(), name="login-or-guest"),
 ]

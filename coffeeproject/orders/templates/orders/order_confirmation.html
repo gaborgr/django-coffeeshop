@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmación de Pedido | Django Brew{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-4 py-12">
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        <!-- Encabezado -->
+        <div class="bg-green-500 text-white px-6 py-4">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <h2 class="text-xl font-bold">¡Pedido Confirmado!</h2>
+            </div>
+        </div>
+        
+        <!-- Cuerpo -->
+        <div class="p-6">
+            <div class="mb-6">
+                <p class="text-gray-700 mb-4">
+                    Gracias por tu compra, {% if request.user.is_authenticated %}{{ request.user.username }}{% else %}invitado{% endif %}.
+                </p>
+                <p class="text-gray-700">
+                    Tu pedido #{{ order.id }} ha sido recibido y está siendo procesado.
+                </p>
+            </div>
+            
+            <!-- Resumen del pedido -->
+            <div class="border-t border-gray-200 pt-4">
+                <h3 class="text-lg font-medium text-gray-900 mb-3">Resumen del Pedido</h3>
+                <div class="space-y-3 mb-4">
+                    {% for item in order.orderitem_set.all %}
+                    <div class="flex justify-between">
+                        <span>{{ item.product.name }} x{{ item.quantity }}</span>
+                        <span class="font-medium">${{ item.subtotal }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="flex justify-between border-t border-gray-200 pt-2">
+                    <span class="font-bold">Total</span>
+                    <span class="font-bold text-green-600">${{ order.total }}</span>
+                </div>
+            </div>
+            
+            <!-- Información de envío -->
+            <div class="mt-6 border-t border-gray-200 pt-4">
+                <h3 class="text-lg font-medium text-gray-900 mb-3">Información de Entrega</h3>
+                <p class="text-gray-700">{{ order.customer.address }}</p>
+                {% if order.customer.phone %}
+                <p class="text-gray-700 mt-1">Teléfono: {{ order.customer.phone }}</p>
+                {% endif %}
+                {% if not request.user.is_authenticated %}
+                <p class="text-yellow-600 text-sm mt-2">
+                    Guarda este número de pedido: <strong>#{{ order.id }}</strong> para futuras consultas
+                </p>
+                {% endif %}
+            </div>
+            
+            <!-- Acciones -->
+            <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                <a href="{% url 'product-list' %}" 
+                   class="flex-1 text-center px-6 py-3 border border-amber-500 text-amber-600 rounded-md hover:bg-amber-50 transition">
+                    Volver al Menú
+                </a>
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'accounts:profile' %}" 
+                   class="flex-1 text-center px-6 py-3 bg-gray-800 hover:bg-gray-900 text-white rounded-md transition">
+                    Ver Mis Pedidos
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -8,7 +8,9 @@ from accounts.models import Profile
 
 class Order(models.Model):
     STATUS_CHOICES = [("P", "Pending"), ("C", "Completed"), ("X", "Cancelled")]
-    customer = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    customer = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="orders"
+    )
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="P")
     total = models.DecimalField(
         max_digits=10, decimal_places=2, default=0, validators=[MinValueValidator(0)]
@@ -17,6 +19,7 @@ class Order(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        db_table = "orders_order"
 
     def __str__(self):
         return f"Order #{self.id} - {self.customer}"
