@@ -4,6 +4,7 @@ FROM python:3.11-slim
 # Configuración básica
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DJANGO_SETTINGS_MODULE=coffeeproject.coffeeproject.settings
 
 # Ddirectorio de trabajo dentro del contenedor
 WORKDIR /app
