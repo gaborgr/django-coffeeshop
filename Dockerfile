@@ -17,4 +17,4 @@ RUN pip install --upgrade pip && pip install -r /app/requirements.txt
 COPY . /app
 
 # Comando para recolectar los archivos estaticos y ejecutar el servidor
-CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn coffeeproject.wsgi:application --bind 0.0.0.0:${PORT:-8000}"]
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn coffeeproject.wsgi:application --bind 0.0.0.0:${PORT:-8080}"]
