@@ -7,7 +7,7 @@ from .models import Product  # import the model!
 
 class ProductListView(ListView):  # This is a generic option that Django offers me
     model = Product
-    queryset = Product.objects.filter(is_available=True)
+    queryset = Product.objects.filter(is_available=True).order_by("id")
     paginate_by = 10
 
 
