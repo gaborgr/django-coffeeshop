@@ -16,5 +16,8 @@ RUN pip install --upgrade pip && pip install -r /app/requirements.txt
 # Copia el resto del código del proyecto
 COPY . /app
 
+# Recolectar todos los assets estaticos
+RUN python coffeeproject/manage.py collectstatic --noinput
+
 # Comando para ejecutar el servidor
 CMD ["sh", "-c", "gunicorn coffeeproject.wsgi:application --bind 0.0.0.0:${PORT:-8000}"]
