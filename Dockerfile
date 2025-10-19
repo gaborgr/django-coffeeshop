@@ -10,11 +10,11 @@ ENV DJANGO_SETTINGS_MODULE=coffeeproject.settings
 WORKDIR /app/coffeeproject
 
 # Copia los requirements y los instala
-COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+COPY requirements.txt /app/
+RUN pip install --upgrade pip && pip install -r /app/requirements.txt
 
 # Copia el resto del código del proyecto
-COPY . .
+COPY . /app
 
 # Comando para ejecutar el servidor
 CMD ["sh", "-c", "gunicorn coffeeproject.wsgi:application --bind 0.0.0.0:${PORT:-8000}"]
