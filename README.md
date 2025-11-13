@@ -6,10 +6,34 @@
 
 Proyecto Django completo para gestión de cafetería, desarrollado como parte del curso de Django de Platzi. Implementa PostgreSQL como base de datos y utiliza variables de entorno para configuración sensible.
 
-## 🖥️ **Demo** 
+## 🖥️ **Screenshots** 
+- ***Home***
+![home](assets/home.PNG)
 
-![Screenshot de la página principal](docs/images/home-screenshot.png)
-*(Próximamente más capturas de pantalla y demo en vivo)*
+- ***Menu***
+![menu](assets/menu.PNG)
+
+- ***Cart***
+![cart](assets/cart.PNG)
+
+- ***Checkout***
+![checkout](assets/checkout.PNG)
+
+- ***Login***
+![login](assets/login.PNG)
+
+- ***About***
+![about](assets/about.PNG)
+
+- ***Register***
+![register](assets/register.PNG)
+
+---
+
+## 🎬 **Demo** 
+
+![Demo coffeeshop](assets/demo-django-coffeeshop.gif)
+
 
 ## ✨ **Características**
 
