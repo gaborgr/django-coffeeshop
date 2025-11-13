@@ -150,7 +150,7 @@ def increase_quantity(request, item_id):
     if item.quantity < item.product.stock:
         item.quantity += 1
         item.save()
-    return redirect("cart-view")
+    return redirect("orders:cart-view")
 
 
 def decrease_quantity(request, item_id):
@@ -158,10 +158,10 @@ def decrease_quantity(request, item_id):
     if item.quantity > 1:
         item.quantity -= 1
         item.save()
-    return redirect("cart-view")
+    return redirect("orders:cart-view")
 
 
 def remove_from_cart(request, item_id):
     item = get_object_or_404(OrderItem, id=item_id, order__status="P")
     item.delete()
-    return redirect("cart-view")
+    return redirect("orders:cart-view")
