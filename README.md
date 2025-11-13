@@ -8,11 +8,7 @@ Proyecto Django completo para gestión de cafetería, desarrollado como parte de
 
 ## 🖥️ **Demo** 
 
-![Screenshot de la página principal](./docs/images/home.PNG)
-![Página Login](./docs/images/login.PNG)
-![Menu de Productos](./docs/images/menu.PNG)
-![Carrito de Compras](./docs/images/cart.PNG)
-![Página de Registro](./docs/images/register.PNG)
+![Screenshot de la página principal](docs/images/home-screenshot.png)
 *(Próximamente más capturas de pantalla y demo en vivo)*
 
 ## ✨ **Características**
